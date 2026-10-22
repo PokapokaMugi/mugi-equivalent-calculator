@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="分子量、比重、物質量、質量、体積から化学反応の当量を計算。単位を自由に切り替えられます。">
+  <meta name="theme-color" content="#e8eef6"><title>当量計算ツール</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23256be8'/%3E%3Cpath d='M19 23h26M19 33h19M19 43h26' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+  <style>
+:root{color-scheme:light;--blue:#2266df;--ink:#222d3d;--muted:#657184;--line:#e5e9ef;--field:#f9fafc;--font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue","Hiragino Sans","Noto Sans JP",sans-serif}*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:22px 24px;background:radial-gradient(ellipse at 14% 20%,#d8e7f7 0,transparent 53%),radial-gradient(ellipse at 95% 90%,#cad8ed 0,transparent 45%),#e8edf5;color:var(--ink);font:16px/1.6 var(--font);-webkit-font-smoothing:antialiased}button,input,select{font:inherit}button,select{cursor:pointer}button{transition:background .15s,box-shadow .15s;touch-action:manipulation}button:focus-visible,summary:focus-visible{outline:3px solid #85b3ff;outline-offset:3px}.window{max-width:1500px;margin:0 auto;background:#fff;border:1px solid #ffffffb3;border-radius:17px;box-shadow:0 28px 65px #283c6024,0 3px 12px #31446113;overflow:hidden}.titlebar{height:46px;display:flex;align-items:center;justify-content:center;position:relative;background:linear-gradient(#f5f7faf5,#edf0f4f5);border-bottom:1px solid #dce1e8}.traffic{position:absolute;left:22px;display:flex;gap:8px}.traffic i{height:12px;width:12px;border-radius:50%;background:#ff615a;box-shadow:inset 0 0 0 1px #00000012}.traffic i:nth-child(2){background:#ffbd2e}.traffic i:nth-child(3){background:#28c840}.app-title{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:600;color:#546174}.mini-mark{font-size:13px;font-weight:750;background:var(--blue);color:white;width:21px;height:21px;border-radius:6px;line-height:21px;text-align:center}.title-divider{margin:0 3px;color:#bac2cd;font-weight:400}.local-label{position:absolute;right:23px;font-size:12px;color:#7e8998}.workspace{padding:20px 28px 0}.heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px}.eyebrow{font-size:12px;letter-spacing:.15em;font-weight:700;color:#7b8da5}h1{font-size:21px;letter-spacing:.02em;margin:0;line-height:1.5;font-weight:680}.heading p{margin:0;color:var(--muted);font-size:14px}.primary{display:flex;align-items:center;gap:8px;color:white;background:linear-gradient(#337aef,#2466d8);border:1px solid #2564cd;border-radius:8px;padding:9px 16px;font-size:14px;font-weight:600;box-shadow:0 2px 3px #1c5bb326,inset 0 1px #ffffff26}.primary:hover{background:#185dcc}.primary span{font-size:21px;line-height:1}.summary{display:grid;grid-template-columns:1.2fr 1fr 1.15fr;border:1px solid #dce6f4;border-radius:12px;background:linear-gradient(115deg,#f2f7ff,#f9fbff 60%,#f6f9fd);padding:23px 0;margin-bottom:36px}.summary>div{padding:0 28px;display:flex;flex-direction:column;align-items:flex-start;min-width:0}.summary>div+div{border-left:1px solid #dde6f2}.summary-label{display:flex;align-items:center;gap:7px;font-size:13px;color:#61758e;margin-bottom:10px}.blue-line{width:3px;height:12px;background:var(--blue);border-radius:2px}.reference-summary strong{font-size:23px;line-height:1.6;font-weight:600;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.summary-value{font-size:29px;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.3}.summary-value small{font-size:15px;color:#728198;letter-spacing:0;font-weight:500;margin-left:3px}.equiv-summary .summary-value{color:var(--blue)}.summary-hint{font-size:12px;color:#748096;margin-top:9px}.section-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:16px}h2{font-size:18px;margin:0;font-weight:650;display:flex;align-items:center;gap:9px}h2 span{font-size:12px;background:#eef1f5;color:#778396;border-radius:6px;padding:0 6px;font-weight:600;min-width:22px;text-align:center}.legend{font-size:12px;color:#708198;display:flex;align-items:center;gap:7px}.legend span{width:8px;height:8px;border:1px solid #78a6f2;border-radius:2px;background:#eaf2ff}.table-head,.reagent{display:grid;grid-template-columns:34px minmax(130px,1.3fr) minmax(94px,.9fr) minmax(84px,.8fr) minmax(118px,1.06fr) minmax(118px,1.06fr) minmax(130px,1.16fr) minmax(83px,.75fr) 24px;gap:12px}.table-head{padding:10px 4px;color:#526176;font-size:14px;font-weight:700;background:#f6f8fb;border-radius:7px}.table-head small{display:block;font-weight:700;font-size:12px;color:#8c97a7}.table-head>span:first-child{text-align:center;white-space:nowrap}.reagent{padding:16px 4px;border-top:1px solid var(--line);align-items:start}.reference-wrap{display:flex;align-items:center;justify-content:center;padding-top:13px}.reference-wrap input{appearance:none;-webkit-appearance:none;width:17px;height:17px;border:1.5px solid #c4cedb;border-radius:50%;margin:0;cursor:pointer;background:white;box-shadow:0 1px 2px #25344309}.reference-wrap input:checked{border:5px solid var(--blue)}.reference-wrap input:focus-visible{outline:3px solid #b5d2ff;outline-offset:3px}.field{display:flex;align-items:center;min-width:0;border:1px solid #dfe4ec;border-radius:7px;height:42px;background:var(--field);overflow:hidden;transition:border .15s,box-shadow .15s}.field:focus-within{border-color:#4285ee;box-shadow:0 0 0 3px #2a72e815;background:#fff}.field.active{border-color:#91b6f1;background:#f1f6ff}.field.invalid{border-color:#d77d7d;background:#fff7f6}.field input{color:var(--ink);border:0;background:transparent;outline:0;width:100%;min-width:0;padding:10px 9px;font-size:16px;line-height:20px;font-variant-numeric:tabular-nums;letter-spacing:-.01em}.field input::placeholder{color:#a8b2c0}.field input[readonly]{cursor:default;color:#758198}.field select{background-color:transparent;border:0;border-left:1px solid #e1e6ef;outline:0;color:#63738a;font-size:12px;width:67px;min-width:67px;padding:2px 0 2px 4px;letter-spacing:-.03em;height:24px}.field select:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}.field.mass select,.field.volume select{width:48px;min-width:48px}.name-field{background:#fff}.name-field input{font-weight:600;font-size:15px}.source-caption{font-size:12px;margin-top:7px;color:#7f8b9b;white-space:nowrap}.reference-row .name-field input{color:var(--blue)}.reference-row .source-caption{color:#4c80d6}.delete{color:#929cab;background:transparent;border:0;width:24px;height:38px;display:grid;place-items:center;padding:0}.delete:hover{color:#cb5555;background:#fff1f0;border-radius:6px}.delete:disabled{opacity:.3;cursor:default}.delete svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.mobile-label{display:none}.row-error{grid-column:2/-2;margin:-4px 0 0;font-size:12px;color:#bd4c43;line-height:1.5}.row-error:empty{display:none}.add-row{width:100%;background:#fff;color:#6d7c91;border:1px dashed #dbe2ec;border-radius:8px;padding:10px;text-align:left;margin:5px 0 0;font-size:13px;display:flex;align-items:center;gap:9px}.add-row span{font-size:19px;line-height:1;margin-left:7px}.add-row:hover{color:var(--blue);background:#f8fbff;border-color:#9abbe9}.under-table{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:16px 0 29px;color:#8590a0;font-size:12px}.under-table p{margin:0}.under-table p.error{color:#bd4c43}.help{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.help summary{list-style:none;display:flex;align-items:center;gap:9px;color:#647387;font-size:13px;padding:15px 0;cursor:pointer}.help summary::-webkit-details-marker{display:none}.info-mark{display:inline-grid;place-items:center;width:15px;height:15px;border:1px solid #91a0b3;border-radius:50%;font-size:12px;font-family:Georgia,serif;font-weight:bold;line-height:1}.chevron{margin-left:auto;font-size:17px;color:#8c99ac;transition:transform .15s}.help[open] .chevron{transform:rotate(180deg)}.help-content{display:grid;grid-template-columns:1fr 1fr;gap:22px 32px;padding:8px 0 23px}.help h3{margin:0 0 7px;font-size:14px;font-weight:600}.help p{font-size:16px;line-height:1.9;color:#68778b;margin:0}footer{height:68px;display:flex;align-items:center;justify-content:space-between;color:#98a2b1;font-size:12px}.brand{font-size:14px;letter-spacing:.02em;font-weight:600;color:#6e7c90}.brand-dot{color:var(--blue)}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+@media(min-width:1440px){body{padding-top:24px}.workspace{padding:20px 32px 0}.reagent{padding-top:16px;padding-bottom:16px}}
+@media(max-width:1170px){body{padding:18px}.workspace{padding:18px 22px 0}.table-head,.reagent{gap:8px;grid-template-columns:34px minmax(105px,1fr) minmax(77px,.8fr) minmax(68px,.65fr) minmax(100px,.9fr) minmax(100px,.9fr) minmax(111px,1fr) minmax(68px,.65fr) 22px}.field input{padding-left:7px;padding-right:5px;font-size:16px}.field select{min-width:67px;width:67px}.field.mass select,.field.volume select{min-width:46px;width:46px}}
+@media(max-width:940px){body{padding:14px}.local-label{display:none}.workspace{padding:18px 20px 0}.table-head{display:none}.reagent{position:relative;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px 16px;padding:22px 18px;border:1px solid var(--line);border-radius:11px;margin-bottom:15px;background:#fff}.reference-row{border-color:#bed3f5;background:#fbfdff}.reference-wrap{position:absolute;left:18px;top:18px;z-index:1}.name-cell{grid-column:1/-1;margin-left:32px;margin-right:30px}.name-field{max-width:100%;background:transparent;border-color:transparent}.name-field input{font-size:16px;padding-left:0}.source-caption{margin-top:0;font-size:12px}.delete{position:absolute;right:15px;top:22px}.mobile-label{display:block;font-size:14px;font-weight:700;color:#758398;margin-bottom:5px}.field input{font-size:16px;padding-left:10px}.field select{font-size:13px;width:67px;min-width:67px}.field.mass select,.field.volume select{width:52px;min-width:52px}.row-error{grid-column:1/-1;margin:0}.summary>div{padding:0 18px}.summary-hint{font-size:12px}.help-content{grid-template-columns:1fr}.legend{font-size:12px}.eyebrow{font-size:12px}}
+@media(max-width:560px){body{padding:10px;background:#e8eef6}.window{border-radius:13px}.titlebar{height:49px}.traffic{left:15px;gap:6px}.traffic i{height:10px;width:10px}.app-title{font-size:12px}.workspace{padding:16px 14px 0}.heading{align-items:flex-end;gap:12px;margin-bottom:12px}h1{font-size:20px;margin-bottom:0}.heading p{font-size:12px;max-width:185px}.primary{padding:9px 10px;font-size:12px;white-space:nowrap;gap:3px}.primary span{font-size:17px}.summary{grid-template-columns:1fr 1fr;padding:17px 0;margin-bottom:26px}.summary>div{padding:0 15px}.summary>div:first-child{grid-column:1/-1;padding-bottom:17px;margin-bottom:16px;border-bottom:1px solid #dde6f2}.summary>div:nth-child(2){border-left:0}.reference-summary{display:grid!important;grid-template-columns:1fr 1fr;align-items:center!important}.reference-summary .summary-label{margin:0}.reference-summary strong{font-size:18px;text-align:right}.reference-summary .summary-hint{display:none}.summary-label{font-size:12px;margin-bottom:6px}.summary-value{font-size:25px}.summary-value small{font-size:13px}.summary-hint{font-size:12px;line-height:1.6}.section-bar{display:block;margin-bottom:14px}.legend{margin-top:7px}.reagent{grid-template-columns:repeat(2,minmax(0,1fr));padding:17px 14px;gap:15px 12px}.reference-wrap{left:14px;top:13px}.delete{right:11px;top:17px}.name-cell{margin-left:30px}.under-table{font-size:12px;align-items:flex-start;margin-bottom:22px}.under-table>span{white-space:nowrap}.help summary{font-size:12px}footer{height:57px}footer>span:last-child{font-size:12px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+@media(min-width:941px){.field select{font-size:13px}.summary-label{font-size:14px}}
+
+.solution-row{grid-column:2/-2;display:flex;align-items:center;flex-wrap:wrap;gap:10px 24px;margin-top:3px;padding:8px 12px;border:1px solid #e5eaf2;border-radius:8px;background:#f7f9fc;min-width:0}
+.solution-title{font-size:13px;font-weight:550;color:#79879a;margin-right:3px}
+.solution-control{display:flex;align-items:center;gap:10px;min-width:0}
+.solution-control>label{font-size:14px;color:#63738a;white-space:nowrap}
+.solution-control>label>span{font-size:12px;color:#8a97a8;margin-left:3px}
+.solution-control .field{width:169px;height:38px;background:#fff}
+.solvent-field input{font-size:14px}
+.solvent-field select{min-width:58px;width:58px}
+.solution-control .field.active{border-color:#91b6f1;background:#f1f6ff}.solution-control .field.invalid{border-color:#d77d7d;background:#fff7f6}
+.concentration-field input{font-size:14px}.solution-title small{display:block;font-size:12px;font-weight:400;margin-top:1px;color:#7a8799}
+.concentration-field select{min-width:76px;width:76px}
+.solvent-error{margin:0;flex-basis:100%;font-size:12px;color:#bd4c43}
+.solvent-error:empty{display:none}
+.concentration-note{font-size:12px;color:#77869a;margin:17px 0 0}
+.under-table{margin-top:10px}
+@media(max-width:940px){.solution-row{grid-column:1/-1;padding:12px;gap:12px 20px}.solution-title{flex-basis:100%}.solution-control{flex:1 1 240px}.solution-control .field{flex:1;max-width:230px}.solution-control>label{min-width:87px}.solvent-field input,.concentration-field input{font-size:16px}}
+@media(max-width:560px){.solution-row{gap:10px;padding:12px 10px}.solution-control{display:block;flex:1 1 100%;width:100%}.solution-control>label{display:block;margin-bottom:5px}.solution-control .field{width:100%;max-width:none}.heading p{max-width:none}}
+
+/* Keep reference information secondary to the calculation table. */
+.summary.compact-summary{display:flex;align-items:center;flex-wrap:wrap;gap:0;padding:10px 0;margin:0 0 20px;border-radius:8px;background:#f5f8fd}
+.summary.compact-summary>div{display:flex;flex-direction:row;align-items:center;gap:12px;padding:0 18px;margin:0;min-height:26px;border-bottom:0;flex:1 1 auto}
+.summary.compact-summary .reference-summary{display:flex!important;flex:1.2 1 220px}
+.summary.compact-summary .summary-label{margin:0;font-size:13px;white-space:nowrap;color:#6b7c92}
+.summary.compact-summary .reference-summary strong,.summary.compact-summary .summary-value{font-size:17px;line-height:1.5;font-weight:600;letter-spacing:0;text-align:left}
+.summary.compact-summary .reference-summary strong{min-width:0;flex:1;max-width:320px}
+.summary.compact-summary .summary-value{white-space:nowrap}
+.summary.compact-summary .summary-value small{font-size:13px;margin-left:2px}
+.summary.compact-summary .equiv-summary{flex:0 0 auto}
+@media(max-width:940px){.summary.compact-summary{margin-bottom:18px;gap:9px 0}.summary.compact-summary>div{padding:0 12px}.summary.compact-summary .reference-summary{flex-basis:100%;border:0}.summary.compact-summary>div:nth-child(2){border-left:0}.summary.compact-summary .reference-summary strong{max-width:none}.summary.compact-summary .equiv-summary{flex:1 1 auto}}
+@media(max-width:560px){.summary.compact-summary{padding:8px 0;gap:8px 0}.summary.compact-summary>div{gap:8px;padding:0 10px}.summary.compact-summary .reference-summary strong,.summary.compact-summary .summary-value{font-size:15px}.summary.compact-summary .summary-label{font-size:12px}.summary.compact-summary .summary-value small{font-size:12px}.summary.compact-summary .equiv-summary{flex:0 0 auto}.section-bar{margin-bottom:10px}}
+
+/* Solvent identity stays alongside volume and concentration. */
+.reset-button{flex-shrink:0;padding:6px 12px;border:1px solid #d5deea;border-radius:7px;background:#fff;color:#536278;font-size:14px;font-weight:500;line-height:1.5;white-space:nowrap;box-shadow:0 1px 2px #25344309}.reset-button:hover{background:#f3f6fa;border-color:#b7c5d8}.reset-button:active{background:#e9eff7}@media(max-width:400px){.heading{flex-wrap:wrap}.reset-button{font-size:13px;padding:6px 10px}}
+.solution-row{column-gap:18px}
+.solution-control.solvent-kind-control{gap:8px}
+.solution-control .solvent-kind-field{width:215px}
+.field.solvent-kind-field select{width:100%;min-width:0;height:100%;padding:0 7px;border:0;color:var(--ink);font-size:14px;letter-spacing:0}
+@media(min-width:941px) and (max-width:1170px){.solution-title{display:none}.solution-control{gap:7px}.solution-control .solvent-kind-field{width:185px}.solution-control .solvent-field,.solution-control .concentration-field{width:153px}.solution-row{column-gap:14px}}
+@media(max-width:940px){.solution-control.solvent-kind-control{flex-basis:100%}.solution-control .solvent-kind-field{max-width:330px}}
+@media(max-width:560px){.solution-control .solvent-kind-field{width:100%;max-width:none}.field.solvent-kind-field select{font-size:16px}}
+
+</style>
+</head>
+<body>
+<main class="window">
+  <header class="titlebar"><div class="traffic" aria-hidden="true"><i></i><i></i><i></i></div><div class="app-title"><span class="mini-mark">当</span> 当量計算ツール</div><span class="local-label">Reaction calculator</span></header>
+  <div class="workspace">
+    <section class="heading"><h1>当量計算ツール</h1><button id="reset-all" class="reset-button" type="button">すべてリセット</button></section>
+    <section class="summary compact-summary" aria-label="基準試薬の計算結果">
+      <div class="reference-summary"><span class="summary-label"><span class="blue-line"></span>基準試薬</span><strong id="reference-name">基質 A</strong></div>
+      <div><span class="summary-label">反応スケール</span><strong class="summary-value"><span id="reference-amount">8.1</span> <small id="reference-unit">µmol</small></strong><span class="sr-only" id="reference-status">この物質量を基準に計算</span></div>
+      <div class="equiv-summary"><span class="summary-label">基準当量</span><strong class="summary-value">1.00 <small>eq</small></strong></div>
+    </section>
+    <section class="reagents" aria-label="試薬の入力と計算結果"><div class="section-bar"><h2>試薬一覧 <span id="row-count">3</span></h2><div class="legend"><span></span> 青い項目が計算の入力元</div></div>
+      <div class="table-head" aria-hidden="true"><span>基準</span><span>試薬名</span><span>分子量 <small>g/mol</small></span><span>比重 <small>無次元</small></span><span>質量</span><span>体積</span><span>物質量</span><span>当量 <small>eq</small></span><span></span></div>
+      <div id="rows"></div>
+      <button id="add-bottom" class="add-row"><span aria-hidden="true">＋</span> 試薬を追加</button>
+    </section>
+    <p class="concentration-note">溶媒量・濃度はどちらからでも入力できます。溶媒量を溶液体積とみなした概算です。</p>
+    <div class="under-table"><p id="calculation-status" role="status">3つの試薬を計算中</p><span>入力すると自動計算</span></div>
+    <details class="help"><summary><span class="info-mark">i</span> 計算方法と入力のヒント <span class="chevron" aria-hidden="true">⌄</span></summary><div class="help-content"><div><h3>好きな項目から入力</h3><p>物質量・質量・体積・当量のどれかを編集すると、その項目を入力元にして再計算します。単位を変更しても実際の量は変わりません。</p></div><div><h3>計算式</h3><p>物質量 (mol) = 質量 (g) ÷ 分子量 (g/mol)<br>質量 (g) = 体積 (mL) × 比重 × 1.000 g/mL<br>当量 (eq) = 試薬の物質量 ÷ 基準試薬の物質量</p></div><div><h3>比重と基準について</h3><p>比重は水を1.000 g/mLとする換算値です。密度の数値 (g/mL) をそのまま入力することもできます。固体などで比重が不明な場合は空欄にすると体積の計算を省略できます。基準の物質量は0より大きい値にしてください。</p></div><div><h3>溶媒量と濃度を相互に計算</h3><p>最後に編集した溶媒量または濃度を入力元として保持します。濃度を入力すると、必要な溶媒量 (L) = 物質量 (mol) ÷ 濃度 (mol/L) で逆算します。試薬量を変更すると、指定した濃度を保つ溶媒量に更新されます。試薬ごとに溶媒の種類を選べます。濃度は溶媒の種類によらず、入力した物質量と体積から計算します。各試薬の溶媒量をmLまたはµLで入力すると、物質量 (mol) ÷ 溶媒量 (L) で濃度の目安を計算します。mol/L・mM・µMを切り替えられます。1 mM = 1 mmol/L、1 µM = 1 µmol/Lです。試薬自体の体積は加算しません。溶解による体積変化は考慮しません。正確なモル濃度を求める場合は、調製後の溶液全体の体積を使ってください。濃度から逆算した値は必要な溶液全体の体積なので、正確に調製する場合はその体積まで定容してください。</p></div><div><h3>計算の前提</h3><p>純物質の物質量比を計算します。純度・反応式の係数は補正しません。溶媒量や濃度を入力しても試薬の物質量や当量は変わりません。入力内容はこのページ内だけで保持され、再読み込みで初期値に戻ります。</p></div></div></details>
+    <footer><span class="brand">当量計算ツール</span><span>分子量から、必要な量まで。</span></footer>
+  </div>
+</main>
+<script>
+(function(root){
+  'use strict';
+  const factors={mol:{mol:1,mmol:1e-3,'µmol':1e-6},mass:{g:1,mg:1e-3},volume:{mL:1,'µL':1e-3},eq:{eq:1},concentration:{'mol/L':1,mM:1e-3,'µM':1e-6}};
+  function numeric(value,positive=false){if(value===null||value===undefined||String(value).trim()==='')return null;const s=String(value).trim();if(!/^[+\-]?(?:\d+\.?\d*|\.\d+)(?:e[+\-]?\d+)?$/i.test(s))return null;const n=Number(s);return Number.isFinite(n)&&(positive?n>0:n>=0)?n:null}
+  const finite=n=>Number.isFinite(n)&&n>=0?n:null;
+  function quantities(row,referenceMoles){const value=numeric(row.input);const mw=numeric(row.mw,true);const sg=numeric(row.sg,true);let mol=null,mass=null,volume=null;const quantity=value===null?null:finite(value*(factors[row.source]?.[row.units[row.source]]??1));if(quantity!==null){if(row.source==='mol'){mol=quantity;mass=mw===null?null:finite(mol*mw);volume=mass===null||sg===null?null:finite(mass/sg)}if(row.source==='mass'){mass=quantity;mol=mw===null?null:finite(mass/mw);volume=sg===null?null:finite(mass/sg)}if(row.source==='volume'){volume=quantity;mass=sg===null?null:finite(volume*sg);mol=mass===null||mw===null?null:finite(mass/mw)}if(row.source==='eq'){mol=referenceMoles>0?finite(quantity*referenceMoles):null;mass=mol===null||mw===null?null:finite(mol*mw);volume=mass===null||sg===null?null:finite(mass/sg)}}return{mol,mass,volume}}
+  function dilution(row,moles){
+    const solvent=row.solvent;
+    const hasMoles=moles!==null&&Number.isFinite(moles)&&moles>=0;
+    if(solvent?.source==='concentration'){
+      const input=numeric(solvent.concentrationInput,true);
+      const factor=factors.concentration[solvent.concentrationUnit];
+      const concentration=input!==null&&factor?finite(input*factor):null;
+      const concentrationMolPerLiter=concentration>0?concentration:null;
+      const volume=hasMoles&&moles>0&&concentrationMolPerLiter>0?finite(moles/concentrationMolPerLiter*1000):null;
+      return{solventMilliliters:volume>0?volume:null,concentrationMolPerLiter};
+    }
+    const input=numeric(solvent?.input,true);
+    const factor=factors.volume[solvent?.unit];
+    const volume=input!==null&&factor?finite(input*factor):null;
+    const solventMilliliters=volume>0?volume:null;
+    const concentrationMolPerLiter=hasMoles&&solventMilliliters>0?finite(moles/solventMilliliters*1000):null;
+    return{solventMilliliters,concentrationMolPerLiter};
+  }
+  function calculate(rows,referenceId){const ref=rows.find(r=>r.id===referenceId);const referenceMoles=ref?quantities(ref,null).mol:null;return rows.map(row=>{const q=quantities(row,referenceMoles);return{...q,eq:referenceMoles>0&&q.mol!==null?finite(q.mol/referenceMoles):null,...dilution(row,q.mol)}})}
+  function format(value){return value===null||!Number.isFinite(value)?'':String(Number(value.toPrecision(10)))}
+  function changeUnit(row,field,unit){if(!factors[field]||!Object.hasOwn(factors[field],unit))throw Error('Unsupported unit');if(row.source===field){const n=numeric(row.input);if(n!==null)row.input=String(n*factors[field][row.units[field]]/factors[field][unit])}row.units[field]=unit}
+  function changeSolventUnit(row,unit){if(!Object.hasOwn(factors.volume,unit))throw Error('Unsupported solvent volume unit');const n=numeric(row.solvent.input,true);if(n!==null)row.solvent.input=String(n*factors.volume[row.solvent.unit]/factors.volume[unit]);row.solvent.unit=unit}
+  function changeConcentrationUnit(row,unit){if(!Object.hasOwn(factors.concentration,unit))throw Error('Unsupported concentration unit');const n=numeric(row.solvent.concentrationInput,true);if(n!==null)row.solvent.concentrationInput=String(n*factors.concentration[row.solvent.concentrationUnit]/factors.concentration[unit]);row.solvent.concentrationUnit=unit}
+  const api={factors,numeric,quantities,calculate,format,changeUnit,dilution,changeSolventUnit,changeConcentrationUnit};root.EquivCalc=api;if(typeof module!=='undefined')module.exports=api;
+})(typeof window!=='undefined'?window:globalThis);
+
+</script><script>
+'use strict';
+const C=window.EquivCalc;
+let nextId=4,referenceId=1;
+const SOLVENTS=[
+  {id:'water',name:'水（H₂O）'},
+  {id:'methanol',name:'メタノール（MeOH）'},
+  {id:'ethanol',name:'エタノール（EtOH）'},
+  {id:'isopropanol',name:'2-プロパノール（IPA）'},
+  {id:'acetone',name:'アセトン'},
+  {id:'acetonitrile',name:'アセトニトリル（MeCN）'},
+  {id:'thf',name:'THF'},
+  {id:'dioxane',name:'1,4-ジオキサン'},
+  {id:'diethyl-ether',name:'ジエチルエーテル'},
+  {id:'ethyl-acetate',name:'酢酸エチル（EtOAc）'},
+  {id:'hexane',name:'n-ヘキサン'},
+  {id:'heptane',name:'n-ヘプタン'},
+  {id:'toluene',name:'トルエン'},
+  {id:'dichloromethane',name:'ジクロロメタン（DCM）'},
+  {id:'chloroform',name:'クロロホルム'},
+  {id:'dmf',name:'DMF'},
+  {id:'dmac',name:'DMAc'},
+  {id:'dmso',name:'DMSO'}
+];
+function blankSolvent(){return{kind:'',source:'volume',input:'',unit:'mL',concentrationInput:'',concentrationUnit:'mol/L'}}
+let rows=[
+  {id:1,name:'基質 A',mw:'518.44',sg:'',source:'mol',input:'8.1',units:{mol:'µmol',mass:'mg',volume:'µL'},solvent:blankSolvent()},
+  {id:2,name:'試薬 B',mw:'157.01',sg:'1.5',source:'eq',input:'1',units:{mol:'µmol',mass:'mg',volume:'µL'},solvent:blankSolvent()},
+  {id:3,name:'試薬 C',mw:'24',sg:'',source:'eq',input:'1',units:{mol:'µmol',mass:'mg',volume:'µL'},solvent:blankSolvent()}
+];
+const labels={mw:'分子量',sg:'比重',mass:'質量',volume:'体積',mol:'物質量',eq:'当量'};
+const byId=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
+function field(row,key){const units=C.factors[key];return `<div><label class="mobile-label" for="${row.id}-${key}">${labels[key]}${key==='mw'?' (g/mol)':key==='sg'?' (無次元)':key==='eq'?' (eq)':''}</label><div class="field ${key}" data-box="${key}"><input id="${row.id}-${key}" data-field="${key}" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="—" aria-label="${esc(row.name||'名称未入力')}の${labels[key]}" aria-describedby="${row.id}-error">${units&&key!=='eq'?`<select data-unit="${key}" aria-label="${esc(row.name||'名称未入力')}の${labels[key]}の単位">${Object.keys(units).map(u=>`<option value="${u}" ${row.units[key]===u?'selected':''}>${u}</option>`).join('')}</select>`:''}</div></div>`}
+function solventFields(row){
+  const name=esc(row.name||'名称未入力');
+  return `<div class="solution-row"><span class="solution-title">溶液の調製<small>溶媒量・濃度から入力</small></span><div class="solution-control solvent-kind-control"><label for="${row.id}-solvent-kind">溶媒</label><div class="field solvent-kind-field"><select id="${row.id}-solvent-kind" data-solvent-kind aria-label="${name}の溶媒の種類"><option value="">未選択</option>${SOLVENTS.map(solvent=>`<option value="${solvent.id}">${esc(solvent.name)}</option>`).join('')}</select></div></div><div class="solution-control"><label for="${row.id}-solvent">溶媒量 <span data-solvent-role>入力</span></label><div class="field solvent-field"><input id="${row.id}-solvent" data-solvent-input type="text" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="未使用" aria-label="${name}の溶媒量" aria-describedby="${row.id}-solvent-error"><select data-solvent-unit aria-label="${name}の溶媒量の単位">${Object.keys(C.factors.volume).map(unit=>`<option value="${unit}">${unit}</option>`).join('')}</select></div></div><div class="solution-control"><label for="${row.id}-concentration">濃度 <span data-concentration-role>計算値</span></label><div class="field concentration-field"><input id="${row.id}-concentration" data-concentration-input type="text" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="—" aria-label="${name}の濃度" aria-describedby="${row.id}-solvent-error"><select data-concentration-unit aria-label="${name}の濃度の単位">${Object.keys(C.factors.concentration).map(unit=>`<option value="${unit}">${unit}</option>`).join('')}</select></div></div><p class="solvent-error" id="${row.id}-solvent-error" role="status"></p></div>`;
+}
+function refreshSolvent(row,result,element){
+  const name=row.name||'名称未入力';
+  const solvent=row.solvent;
+  const fromConcentration=solvent.source==='concentration';
+  const raw=fromConcentration?solvent.concentrationInput:solvent.input;
+  const hasInput=raw.trim()!=='';
+  const invalid=hasInput&&C.numeric(raw,true)===null;
+  const kind=element.querySelector('[data-solvent-kind]');
+  kind.value=solvent.kind||'';
+  kind.setAttribute('aria-label',`${name}の溶媒の種類`);
+  const values={volume:result.solventMilliliters===null?null:result.solventMilliliters/C.factors.volume[solvent.unit],concentration:result.concentrationMolPerLiter===null?null:result.concentrationMolPerLiter/C.factors.concentration[solvent.concentrationUnit]};
+  for(const [key,attribute] of [['volume','solvent'],['concentration','concentration']]){
+    const isSource=key===(fromConcentration?'concentration':'volume');
+    const input=element.querySelector(`[data-${attribute}-input]`);
+    const value=isSource?raw:C.format(values[key]);
+    if(input.value!==value)input.value=value;
+    input.setAttribute('aria-label',`${name}の${key==='volume'?'溶媒量':'濃度'}`);
+    input.setAttribute('aria-invalid',String(isSource&&invalid));
+    const box=element.querySelector(`.${attribute}-field`);
+    box.classList.toggle('active',isSource);
+    box.classList.toggle('invalid',isSource&&invalid);
+    element.querySelector(`[data-${attribute}-role]`).textContent=isSource?'入力':'計算値';
+  }
+  for(const [attribute,unit,label] of [['solvent',solvent.unit,'溶媒量'],['concentration',solvent.concentrationUnit,'濃度']]){
+    const select=element.querySelector(`[data-${attribute}-unit]`);
+    select.value=unit;
+    select.setAttribute('aria-label',`${name}の${label}の単位`);
+  }
+  let message='';
+  if(invalid)message=`${fromConcentration?'濃度':'溶媒量'}は0より大きい数値を入力してください。`;
+  else if(hasInput){
+    if(result.mol===null)message='試薬の物質量を計算できる値を入力してください。';
+    else if(fromConcentration&&result.mol===0)message='濃度から溶媒量を求めるには、試薬の物質量を0より大きい値にしてください。';
+    else if(result.solventMilliliters===null||result.concentrationMolPerLiter===null||Object.values(values).some(value=>value!==null&&!Number.isFinite(value)))message='計算できる数値の範囲を超えています。試薬の量・溶媒量・濃度または単位を見直してください。';
+  }
+  element.querySelector('.solvent-error').textContent=message;
+  return Boolean(message);
+}
+function mount(){byId('rows').innerHTML=rows.map(row=>`<article class="reagent" data-id="${row.id}" aria-label="${esc(row.name||'名称未入力')}"><label class="reference-wrap"><input type="radio" name="reference" value="${row.id}" aria-label="${esc(row.name||'名称未入力')}を基準にする"></label><div class="name-cell"><div class="field name-field"><input data-field="name" aria-label="試薬名" value="${esc(row.name)}" maxlength="80" placeholder="試薬名を入力"></div><div class="source-caption"></div></div>${['mw','sg','mass','volume','mol','eq'].map(k=>field(row,k)).join('')}<button class="delete" data-delete="${row.id}" aria-label="${esc(row.name||'名称未入力')}を削除"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg></button><p class="row-error" id="${row.id}-error"></p>${solventFields(row)}</article>`).join('');refresh()}
+function rowMessages(row,q,refMoles){const messages=[];for(const field of ['mw','sg']){if(row[field].trim()!==''&&C.numeric(row[field],true)===null)messages.push(`${labels[field]}は0より大きい数値を入力してください。`)}if(row.input.trim()!==''&&C.numeric(row.input)===null)messages.push(`${labels[row.source]}は0以上の数値を入力してください。`);if(row.source==='volume'&&C.numeric(row.sg,true)===null&&row.sg.trim()==='')messages.push('体積から換算するには比重を入力してください。');if(['mass','volume'].includes(row.source)&&C.numeric(row.mw,true)===null&&row.mw.trim()==='')messages.push('物質量と当量を求めるには分子量を入力してください。');if(row.source==='eq'&&!(refMoles>0))messages.push('基準試薬の物質量を0より大きい値にしてください。');if(C.numeric(row.input)!==null&&q[row.source==='eq'?'mol':row.source]===null&&!(row.source==='eq'&&!(refMoles>0)))messages.push('数値が大きすぎます。入力値または単位を見直してください。');return messages.join(' ')}
+function refresh(){const results=C.calculate(rows,referenceId);const refIndex=rows.findIndex(r=>r.id===referenceId);const ref=rows[refIndex],refQ=results[refIndex];let issues=0;rows.forEach((row,i)=>{const element=document.querySelector(`[data-id="${row.id}"]`);const isRef=row.id===referenceId;element.classList.toggle('reference-row',isRef);element.setAttribute('aria-label',row.name||'名称未入力');element.querySelector('[type="radio"]').checked=isRef;element.querySelector('[type="radio"]').setAttribute('aria-label',`${row.name||'名称未入力'}を基準にする`);element.querySelector('.delete').disabled=rows.length===1;element.querySelector('.delete').setAttribute('aria-label',`${row.name||'名称未入力'}を削除`);element.querySelector('.source-caption').textContent=`${isRef?'基準 · ':''}${labels[row.source]}から計算`;for(const key of Object.keys(labels)){const input=element.querySelector(`[data-field="${key}"]`);let value=key==='mw'||key==='sg'?row[key]:row.source===key?(C.numeric(row.input)===null?row.input:C.format(C.numeric(row.input))):key==='eq'&&isRef?(refQ.mol>0?'1':''):C.format(results[i][key]===null?null:results[i][key]/(C.factors[key]?.[row.units[key]]??1));if(document.activeElement!==input)input.value=value;input.readOnly=key==='eq'&&isRef;input.setAttribute('aria-label',`${row.name||'名称未入力'}の${labels[key]}${input.readOnly?'（基準は1当量）':''}`);const invalid=(['mw','sg'].includes(key)?row[key].trim()!==''&&C.numeric(row[key],true)===null:row.source===key&&row.input.trim()!==''&&C.numeric(row.input)===null);input.setAttribute('aria-invalid',String(invalid));element.querySelector(`[data-box="${key}"]`).classList.toggle('active',row.source===key);element.querySelector(`[data-box="${key}"]`).classList.toggle('invalid',invalid);const select=element.querySelector(`[data-unit="${key}"]`);if(select){select.value=row.units[key];select.setAttribute('aria-label',`${row.name||'名称未入力'}の${labels[key]}の単位`)}}const message=rowMessages(row,results[i],refQ.mol);element.querySelector('.row-error').textContent=message;const solventIssue=refreshSolvent(row,results[i],element);if(message||solventIssue||results[i].mol===null)issues++});byId('reference-name').textContent=ref.name||'名称未入力';byId('reference-amount').textContent=C.format(refQ.mol===null?null:refQ.mol/C.factors.mol[ref.units.mol])||'—';byId('reference-unit').textContent=ref.units.mol;byId('reference-status').textContent=refQ.mol>0?'この物質量を基準に計算':'基準の物質量を0より大きい値に設定';byId('row-count').textContent=rows.length;byId('calculation-status').textContent=!(refQ.mol>0)?'基準の物質量を入力すると当量が計算されます':issues?`${issues}行の入力を確認してください`:`${rows.length}つの試薬 · 計算済み`;byId('calculation-status').classList.toggle('error',issues>0)}
+function chooseReference(id){if(id===referenceId)return;const i=rows.findIndex(r=>r.id===id);if(i<0)throw Error('Unknown reagent');const before=C.calculate(rows,referenceId);const newMoles=before[i].mol;rows.forEach((row,index)=>{if(row.source!=='eq')return;if(index===i||!(newMoles>0)){row.source='mol';row.input=before[index].mol===null?'':String(before[index].mol/C.factors.mol[row.units.mol])}else row.input=before[index].mol===null?'':String(before[index].mol/newMoles)});referenceId=id;refresh()}
+function addRow(){const id=nextId++;rows.push({id,name:`試薬 ${id}`,mw:'',sg:'',source:'eq',input:'1',units:{mol:'mmol',mass:'mg',volume:'µL'},solvent:blankSolvent()});mount();document.querySelector(`[data-id="${id}"] [data-field="name"]`).focus()}
+function resetAll(){
+  rows=rows.map(row=>({id:row.id,name:'',mw:'',sg:'',source:'mol',input:'',units:{mol:'µmol',mass:'mg',volume:'µL'},solvent:blankSolvent()}));
+  referenceId=rows[0].id;
+  mount();
+  byId('calculation-status').textContent='すべての入力をリセットしました';
+  byId('calculation-status').classList.remove('error');
+}
+byId('add-bottom').addEventListener('click',addRow);
+byId('reset-all').addEventListener('click',resetAll);
+byId('rows').addEventListener('input',event=>{if(event.target.hasAttribute('data-solvent-input')||event.target.hasAttribute('data-concentration-input')){const row=rows.find(r=>r.id===Number(event.target.closest('[data-id]').dataset.id));const concentration=event.target.hasAttribute('data-concentration-input');row.solvent.source=concentration?'concentration':'volume';row.solvent[concentration?'concentrationInput':'input']=event.target.value;refresh();return}const key=event.target.dataset.field;if(!key)return;const element=event.target.closest('[data-id]');const row=rows.find(r=>r.id===Number(element.dataset.id));if(['name','mw','sg'].includes(key))row[key]=event.target.value;else if(!(key==='eq'&&row.id===referenceId)){row.source=key;row.input=event.target.value}refresh()});
+byId('rows').addEventListener('change',event=>{if(event.target.hasAttribute('data-solvent-kind')){const row=rows.find(r=>r.id===Number(event.target.closest('[data-id]').dataset.id));const kind=event.target.value;if(kind===''||SOLVENTS.some(solvent=>solvent.id===kind))row.solvent.kind=kind;refresh();return}if(event.target.type==='radio'){chooseReference(Number(event.target.value));return}if(event.target.hasAttribute('data-solvent-unit')||event.target.hasAttribute('data-concentration-unit')){const row=rows.find(r=>r.id===Number(event.target.closest('[data-id]').dataset.id));if(event.target.hasAttribute('data-solvent-unit'))C.changeSolventUnit(row,event.target.value);else C.changeConcentrationUnit(row,event.target.value);refresh();return}const key=event.target.dataset.unit;if(key){const row=rows.find(r=>r.id===Number(event.target.closest('[data-id]').dataset.id));C.changeUnit(row,key,event.target.value);refresh()}});
+byId('rows').addEventListener('click',event=>{const button=event.target.closest('[data-delete]');if(!button||rows.length===1)return;const id=Number(button.dataset.delete);if(id===referenceId)chooseReference(rows.find(r=>r.id!==id).id);rows=rows.filter(r=>r.id!==id);mount()});
+byId('rows').addEventListener('focusout',()=>queueMicrotask(refresh));
+mount();
+
+function reactionSnapshot(){const results=C.calculate(rows,referenceId);return{referenceId,reagents:rows.map((row,index)=>({id:row.id,name:row.name,molecularWeight:C.numeric(row.mw,true),specificGravity:C.numeric(row.sg,true),inputSource:row.source,input:row.input,displayUnits:{...row.units},moles:results[index].mol,massGrams:results[index].mass,volumeMilliliters:results[index].volume,equivalents:results[index].eq,solventId:row.solvent.kind||null,solventName:SOLVENTS.find(solvent=>solvent.id===row.solvent.kind)?.name||null,solutionInputSource:row.solvent.source||'volume',solventVolumeMilliliters:results[index].solventMilliliters,concentrationMolPerLiter:results[index].concentrationMolPerLiter}))}}
+function setReagentQuantities(input){if(!input||typeof input!=='object'||Object.keys(input).some(k=>k!=='updates')||!Array.isArray(input.updates)||input.updates.length<1||input.updates.length>100)throw Error('updates must contain 1–100 reagent changes');const draft=structuredClone(rows);const seen=new Set();for(const patch of input.updates){if(!patch||typeof patch!=='object'||Object.keys(patch).some(k=>!['id','quantity','value','unit'].includes(k)))throw Error('Invalid reagent update');const row=draft.find(r=>r.id===patch.id);if(!row||seen.has(patch.id))throw Error('Unknown or duplicate reagent ID');seen.add(patch.id);const unitFactors=patch.quantity==='solvent'?C.factors.volume:C.factors[patch.quantity];if(!['mol','mass','volume','eq','solvent','concentration'].includes(patch.quantity)||typeof patch.value!=='number'||!Number.isFinite(patch.value)||patch.value<0||!Object.hasOwn(unitFactors,patch.unit))throw Error('Invalid quantity, value, or unit');if(patch.quantity==='solvent'||patch.quantity==='concentration'){if(patch.value<=0)throw Error('Solvent volume and concentration must be positive');const concentration=patch.quantity==='concentration';row.solvent.source=concentration?'concentration':'volume';row.solvent[concentration?'concentrationInput':'input']=String(patch.value);row.solvent[concentration?'concentrationUnit':'unit']=patch.unit;continue}if(patch.quantity==='eq'&&row.id===referenceId)throw Error('Reference equivalents are fixed; set its amount instead');if(patch.quantity!=='eq')row.units[patch.quantity]=patch.unit;row.source=patch.quantity;row.input=String(patch.value)}rows=draft;document.activeElement?.blur();refresh();return reactionSnapshot()}
+if(document.modelContext?.registerTool){const lifecycle=new AbortController();const definitions=[{name:'get_reaction_calculation',title:'当量計算の値を取得',description:'Read all reagent inputs, solvent volumes, and computed amounts and estimated concentrations. Results use mol, g, mL, mol/L, and equivalents; no page state changes.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true,untrustedContentHint:true},execute:()=>reactionSnapshot()},{name:'set_reagent_quantities',title:'試薬の量を入力',description:'Update one or more existing reagent quantities, positive solvent volumes, or positive target concentrations in this page and recalculate the same visible calculator. Does not save or transmit data. Read reagent IDs with get_reaction_calculation first.',inputSchema:{type:'object',properties:{updates:{type:'array',minItems:1,maxItems:100,items:{type:'object',properties:{id:{type:'integer'},quantity:{type:'string',enum:['mol','mass','volume','eq','solvent','concentration']},value:{type:'number',minimum:0},unit:{type:'string',enum:['mol','mmol','µmol','g','mg','mL','µL','eq','mol/L','mM','µM']}},required:['id','quantity','value','unit'],additionalProperties:false}}},required:['updates'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:true},execute:setReagentQuantities}];for(const definition of definitions){try{Promise.resolve(document.modelContext.registerTool(definition,{signal:lifecycle.signal})).catch(()=>{})}catch{}}window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true})}
+
+</script>
+</body></html>
